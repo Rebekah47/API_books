@@ -1,18 +1,40 @@
-<template>
+<template lang='html'>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>The Creatures of  and Dragons</h1>
+    <div>
+    <race-list :races='races'></race-list>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {eventBus} from './main.js'
+import RaceList from './components/RaceList.vue'
+import RaceItem from './components/RaceItem.vue'
+import RaceDetails from './components/RaceDetails.vue'
 
 export default {
   name: 'App',
+  data(){
+    return{
+      races: [],
+      selectedRace: null,
+    }
+  },
+  mounted(){
+    console.log('mounted called')
+    fetch('https://www.dnd5eapi.co/api/races')
+    .then(res => res.json())
+    .then(races => console.log(races))
+
+    eventBus.$on('race-selected', (race) => {
+      this.selectedRace = race
+    })
+  },
   components: {
-    HelloWorld
-  }
+    'race-list': RaceList,
+    'race-details': RaceDetails
+  },
 }
 </script>
 
