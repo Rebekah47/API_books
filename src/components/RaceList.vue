@@ -1,7 +1,6 @@
 <template lang="html">
   <div>
-      <ul>
-        <race-item v-for="(race, index) in races" :race="race" :key="index"></race-item>   
+      <ul>   
         <select v-on:change="handleChange" id="race-selected" v-model="selectedRace">
         <option disabled value="">Select a Species</option>
         <option v-for="(race, index) in races" :race="race" :value="race" :key="index">{{race.name}}</option>
@@ -17,7 +16,8 @@ export default {
     name:'race-list',
     data(){
         return{
-            selectedRace:null
+            selectedRace:null,
+            detailSelected: [],
         }
     },
     props: ['races'],
@@ -28,6 +28,12 @@ export default {
         handleChange(){
             eventBus.$emit('race-selected', this.selectedRace)
         }
+    },
+    mounted(){
+        fetch('/this.selectedRace.url', {referrer: "https://www.dnd5eapi.co"})
+        console.log(detailSelected)
+        .then(res => res.json())
+        .then(detailSelected => this.detailSelected = detailSelected)
     }
 }
 </script>

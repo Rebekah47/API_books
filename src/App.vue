@@ -1,6 +1,6 @@
 <template lang='html'>
   <div id="app">
-    <h1>The Creatures of  and Dragons</h1>
+    <h1>The Creatures of Dungeons and Dragons</h1>
     <div>
     <race-list :races='races'></race-list>
     </div>
@@ -19,17 +19,21 @@ export default {
     return{
       races: [],
       selectedRace: null,
+      detailSelected: []
     }
   },
   mounted(){
-    console.log('mounted called')
     fetch('https://www.dnd5eapi.co/api/races')
     .then(res => res.json())
-    .then(races => console.log(races))
+    .then(races => this.races = races.results)
 
     eventBus.$on('race-selected', (race) => {
       this.selectedRace = race
     })
+
+    fetch('/this.selectedRace.url', {referrer: "https://www.dnd5eapi.co"})
+    .then(res => res.json())
+    .then(detailSelected => this.detailSelected = detailSelected)
   },
   components: {
     'race-list': RaceList,
